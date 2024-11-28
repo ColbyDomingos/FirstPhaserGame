@@ -20,6 +20,8 @@ class mainScene {
 
         this.lemon = this.physics.add.sprite(200, 200, 'lemon');
 
+        this.bigLemon = this.physics.add.sprite(400, 400, 'lemon');
+
         // Store in a variable, starts at 0
         this.score = 0;
 
@@ -27,15 +29,15 @@ class mainScene {
         let style = { font: '15px Arial', fill: '#fff' };
 
         //Display the score in the top left then the text for it and the style
-        this.scoreText = this.add.text(20, 20, 'Score: ' + this.score, style);
+        this.scoreText = this.add.text(650, 40, 'Score: ' + this.score, style);
 
         this.arrow = this.input.keyboard.createCursorKeys();
     }
 
-    hit() {
+    hitLemon() {
         // Change the position of the lemon after collection
-        this.lemon.x = Phaser.Math.Between(100, 600);
-        this.lemon.y = Phaser.Math.Between(100, 300);
+        this.lemon.x = Phaser.Math.Between(100, 1300);
+        this.lemon.y = Phaser.Math.Between(100, 750);
 
         // Add 10 to the score
         this.score += 10;
@@ -48,6 +50,23 @@ class mainScene {
             duration: 200, // for 200 MS
             scaleX: 1.9, // scale it up
             scaleY: 1.9, // scale it up
+            yoyo: true, //at the end go back to original size
+        });
+    }
+
+    hitBigLemon() {
+        this.bigLemon.x = Phaser.Math.Between(100, 1300);
+        this.bigLemon.y = Phaser.Math.Between(100, 750);
+
+        this.score += 50;
+
+        this.scoreText.setText('Score: ' + this.score);
+
+        this.tweens.add({
+            targets: this.player, // for plater
+            duration: 400, // for 200 MS
+            scaleX: 2.5, // scale it up
+            scaleY: 2.5, // scale it up
             yoyo: true, //at the end go back to original size
         });
     }
@@ -69,7 +88,10 @@ class mainScene {
         }
 
         if (this.physics.overlap(this.player, this.lemon)) {
-            this.hit();
+            this.hitLemon();
+        }
+        if (this.physics.overlap(this.player, this.bigLemon)) {
+            this.hitBigLemon();
         }
     }
 }
