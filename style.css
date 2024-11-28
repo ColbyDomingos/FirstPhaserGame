@@ -11,3 +11,14 @@ body{
 
     border: solid 2px #fff;
 }
+
+h1, p{
+    font-family: Arial, Helvetica, sans-serif;
+
+    text-align: center;
+    color: #fff;
+    padding: 20px;
+
+    border: 2px solid #fff;
+    background-color: rgba(0, 0, 0, 0.6);
+}
