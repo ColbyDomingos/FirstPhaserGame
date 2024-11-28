@@ -10,6 +10,8 @@ class mainScene {
         this.load.image('player', 'assets/player.png');
 
         this.load.image('lemon', 'assets/collectable.png');
+
+        this.load.image('enemy', 'assets/enemy.png');
     }
     create(){
         //called once just after preload()
@@ -21,6 +23,8 @@ class mainScene {
         this.lemon = this.physics.add.sprite(200, 200, 'lemon');
 
         this.bigLemon = this.physics.add.sprite(400, 400, 'lemon');
+
+        this.enemy = this.physics.add.sprite(600, 600, 'enemy');
 
         // Store in a variable, starts at 0
         this.score = 0;
@@ -71,6 +75,23 @@ class mainScene {
         });
     }
 
+    hitEnemy(){
+        this.enemy.x = Phaser.Math.Between(100, 1300);
+        this.enemy.y = Phaser.Math.Between(100, 750);
+
+        this.score -= 200;
+
+        this.scoreText.setText('Score: ' + this.score);
+
+        this.tweens.add({
+            targets: this.player, // for plater
+            duration: 400, // for 400 MS
+            scaleX: .2, // scale it down
+            scaleY: .2, // scale it down
+            yoyo: true, //at the end go back to original size
+        });
+    }
+
     update(){
         //Called 60 times a second after create()
         // Handles game logic
@@ -92,6 +113,9 @@ class mainScene {
         }
         if (this.physics.overlap(this.player, this.bigLemon)) {
             this.hitBigLemon();
+        }
+        if (this.physics.overlap(this.player, this.enemy)) {
+            this.hitEnemy();
         }
     }
 }
